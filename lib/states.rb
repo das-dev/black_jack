@@ -24,7 +24,7 @@ class StartGameState < State
   end
 
   def exit_game
-    @game.queue.prepend(->(game) { game.dealer_play })
+    @game.queue << (->(game) { game.dealer_play })
     transition(ExitGameState.new(@game))
   end
 end

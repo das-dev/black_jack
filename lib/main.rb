@@ -6,7 +6,7 @@ require_relative "screen"
 
 class Application
   def initialize
-    @queue = []
+    @queue = Queue.new
     @game = Game.new(@queue)
     @controller = Controller.new(@queue)
     @presentation = Screen.new(@game)

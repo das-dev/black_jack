@@ -12,7 +12,7 @@ class Game
   end
 
   def update
-    while (event = @queue.pop)
+    while (event = self.event)
       event.call(self)
     end
   end
@@ -35,5 +35,13 @@ class Game
 
   def exit?
     action == :exit_game
+  end
+
+  protected
+
+  def event
+    @queue.pop(true)
+  rescue ThreadError
+    nil
   end
 end

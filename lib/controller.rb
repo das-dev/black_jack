@@ -12,7 +12,7 @@ class Controller
     action = ACTIONS[input]
     return unless action
 
-    @queue.prepend(event(action))
+    @queue << (event(action))
   end
 
   private
