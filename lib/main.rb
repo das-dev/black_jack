@@ -3,8 +3,14 @@
 require_relative "controller"
 require_relative "game"
 require_relative "screen"
+require "forwardable"
 
-class Application
+class GameLoop
+  extend Forwardable
+  def_delegators :@presentation, :render
+  def_delegators :@game, :update
+  def_delegators :@controller, :process_input
+
   def initialize
     @queue = Queue.new
     @game = Game.new(@queue)
@@ -19,20 +25,6 @@ class Application
       render
     end
   end
-
-  private
-
-  def process_input
-    @controller.process_input
-  end
-
-  def update
-    @game.update
-  end
-
-  def render
-    @presentation.render
-  end
 end
 
-Application.new.run if __FILE__ == $PROGRAM_NAME
+GameLoop.new.run if __FILE__ == $PROGRAM_NAME

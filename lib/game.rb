@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 require_relative "states"
+require "forwardable"
 
 class Game
   attr_reader :queue
   attr_accessor :state
+
+  extend Forwardable
+  def_delegators :@state, :action, :user_play, :dealer_play
 
   def initialize(queue)
     @queue = queue
@@ -15,18 +19,6 @@ class Game
     while (event = self.event)
       event.call(self)
     end
-  end
-
-  def user_play(action)
-    @state.user_play(action)
-  end
-
-  def dealer_play
-    @state.dealer_play
-  end
-
-  def action
-    @state.action
   end
 
   def over?

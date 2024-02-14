@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 class Screen
+  extend Forwardable
+  def_delegators :@game, :action
+
   def initialize(game)
     @game = game
     render
@@ -24,11 +29,5 @@ class Screen
 
   def clear
     system("clear") || system("cls")
-  end
-
-  private
-
-  def action
-    @game.action
   end
 end
