@@ -1,23 +1,27 @@
 # frozen_string_literal: true
 
-require_relative "states"
+require_relative "states/states"
 require "forwardable"
 
 class Game
   attr_reader :queue
-  attr_accessor :state
 
   extend Forwardable
-  def_delegators :@state, :action, :user_play, :dealer_play
+  def_delegators :state, :action
 
   def initialize(queue)
     @queue = queue
-    @state = StartGameState.new(self)
+    @state = States::START_GAME.new(self)
+  end
+
+  def switch_state(state)
+    # puts "Transitioning from #{self.state.class} to #{state}"
+    self.state = state.new(self)
   end
 
   def update
     while (event = self.event)
-      event.call(self)
+      state.method(event).call
     end
   end
 
@@ -31,8 +35,10 @@ class Game
 
   protected
 
+  attr_accessor :state
+
   def event
-    @queue.pop(true)
+    queue.pop(true)
   rescue ThreadError
     nil
   end

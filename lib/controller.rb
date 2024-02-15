@@ -6,7 +6,7 @@ class Controller
     "1" => :pass_turn,
     "2" => :add_card,
     "3" => :open_cards,
-    ":q" => :exit_game
+    "q" => :exit_game
   }.freeze
 
   def initialize(queue)
@@ -14,16 +14,7 @@ class Controller
   end
 
   def process_input
-    input = gets.chomp
-    action = ACTIONS[input]
-    return unless action
-
-    @queue << (event(action))
-  end
-
-  private
-
-  def event(action)
-    ->(game) { game.user_play(action) }
+    action = ACTIONS[gets.chomp]
+    @queue << action if action
   end
 end
