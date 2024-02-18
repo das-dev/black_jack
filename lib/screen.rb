@@ -19,8 +19,8 @@ class Screen
   def start_game
     puts <<~START_GAME
       Welcome to the game!
-      Type ':q' to exit the game
-      or just press 'Enter' to start the game
+      Type 'q' to exit the game
+      or just press 'Enter' to start new game
     START_GAME
   end
 
@@ -44,7 +44,7 @@ class Screen
     WAIT_FOR_PLAYER
   end
 
-  def exit_game
+  def quit
     puts "Goodbye!"
   end
 

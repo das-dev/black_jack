@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
 class AbcState
-  def initialize(game)
+  def initialize(game_manager, game)
+    @game_manager = game_manager
     @game = game
   end
 
-  def exit_game
-    @game.switch_state(States::EXIT_GAME)
-    trigger_state
+  def quit
+    @game_manager.switch_state(States::QUIT)
+    send_event(:do_nothing)
   end
 
-  def trigger_state
-    @game.queue << :dealer_play
+  def send_event(event)
+    @game_manager.queue << event
   end
 
-  def dealer_play; end
+  def do_nothing; end
 end

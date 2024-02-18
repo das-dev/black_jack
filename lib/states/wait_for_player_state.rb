@@ -8,17 +8,21 @@ class WaitForPlayerState < AbcState
   end
 
   def pass_turn
-    @game.switch_state(States::PASS_TURN)
-    trigger_state
+    @game_manager.switch_state(States::WAIT_FOR_DEALER)
+    send_event(:wait_for_dealer)
   end
 
   def add_card
-    @game.switch_state(States::ADD_CARD)
-    trigger_state
+    return if @game.player_full?
+
+    @game.add_card_to_player
+
+    @game_manager.switch_state(States::WAIT_FOR_DEALER)
+    send_event(:wait_for_dealer)
   end
 
   def open_cards
-    @game.switch_state(States::OPEN_CARDS)
-    trigger_state
+    @game_manager.switch_state(States::WAIT_FOR_DEALER)
+    send_event(:wait_for_dealer)
   end
 end

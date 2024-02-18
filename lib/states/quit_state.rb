@@ -2,8 +2,8 @@
 
 require_relative "abc_state"
 
-class ExitGameState < AbcState
+class QuitState < AbcState
   def action
-    :exit_game
+    :quit
   end
 end

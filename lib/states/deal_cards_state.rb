@@ -7,8 +7,11 @@ class DealCardsState < AbcState
     :deal_cards
   end
 
-  def dealer_play
-    @game.switch_state(States::WAIT_FOR_PLAYER)
-    trigger_state
+  def deal_cards
+    @game.deal_cards
+    @game.place_bet
+
+    @game_manager.switch_state(States::WAIT_FOR_PLAYER)
+    send_event(:do_nothing)
   end
 end

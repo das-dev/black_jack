@@ -7,8 +7,8 @@ class WaitForDealerState < AbcState
     :wait_for_dealer
   end
 
-  def dealer_play
+  def wait_for_dealer
     @game.switch_state(States::WAIT_FOR_PLAYER)
-    trigger_state
+    send_event(:do_nothing)
   end
 end

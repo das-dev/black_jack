@@ -6,7 +6,7 @@ class Controller
     "1" => :pass_turn,
     "2" => :add_card,
     "3" => :open_cards,
-    "q" => :exit_game
+    "q" => :quit
   }.freeze
 
   def initialize(queue)
