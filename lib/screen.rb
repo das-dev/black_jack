@@ -3,40 +3,37 @@
 require "forwardable"
 
 class Screen
+  attr_reader :game
+
   extend Forwardable
   def_delegators :@game, :action
 
-  def initialize(game)
-    @game = game
+  def initialize(debug: false)
+    @debug = debug
     render
   end
 
-  def render
-    clear
-    method(action).call
+  def render(context = nil)
+    clear unless @debug
+    method(action).call(context)
   end
 
-  def start_game
-    puts <<~START_GAME
+  private
+
+  def new_game(_)
+    puts <<~NEW_GAME
       Welcome to the game!
       Type 'q' to exit the game
       or just press 'Enter' to start new game
-    START_GAME
+    NEW_GAME
   end
 
-  def deal_cards
-    puts <<~DEAL_CARDS
-      Dealing cards...
-      Choose an action:
-        1. Pass your turn
-        2. Add a card
-        3. Open your cards
-    DEAL_CARDS
-  end
-
-  def wait_for_player
+  def wait_for_player(ctx)
     puts <<~WAIT_FOR_PLAYER
-      Waiting for your action...
+      Your bank: #{ctx.player_bank}
+      Dealer bank: #{ctx.dealer_bank}
+      Game bank: #{ctx.game_bank}
+
       Choose an action:
         1. Pass your turn
         2. Add a card
@@ -44,7 +41,7 @@ class Screen
     WAIT_FOR_PLAYER
   end
 
-  def quit
+  def quit(_)
     puts "Goodbye!"
   end
 

@@ -10,13 +10,12 @@ class GameLoop
   extend Forwardable
   def_delegators :@presentation, :render
   def_delegators :@game_manager, :update
-  def_delegators :@controller, :process_input
 
   def initialize
     @queue = Queue.new
-    @game_manager = GameManager.new(@queue)
+    @game_manager = GameManager.new(@queue, debug: debug?)
     @controller = Controller.new(@queue)
-    @presentation = Screen.new(@game_manager)
+    @presentation = Screen.new(debug: debug?)
   end
 
   def run
@@ -25,6 +24,20 @@ class GameLoop
       update
       render
     end
+  end
+
+  private
+
+  def process_input
+    @controller.process_input(@game_manager.events_map)
+  end
+
+  def render
+    @presentation.render(@game_manager.context)
+  end
+
+  def debug?
+    ARGV.include?("--debug")
   end
 end
 

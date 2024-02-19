@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 class Player
-  attr_reader :hand, :bank
+  attr_reader :hand
 
   def initialize(bank)
     @hand = []
     @bank = bank
+  end
+
+  def balance
+    @bank.balance
   end
 
   def add_card(card)

@@ -25,4 +25,8 @@ class WaitForPlayerState < AbcState
     @game_manager.switch_state(States::WAIT_FOR_DEALER)
     send_event(:wait_for_dealer)
   end
+
+  def events_map
+    { "1" => :pass_turn, "2" => :add_card, "3" => :open_cards, "q" => :quit }
+  end
 end

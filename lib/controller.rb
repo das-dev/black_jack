@@ -1,20 +1,11 @@
 # frozen_string_literal: true
 
 class Controller
-  ACTIONS = {
-    "" => :enter,
-    "1" => :pass_turn,
-    "2" => :add_card,
-    "3" => :open_cards,
-    "q" => :quit
-  }.freeze
-
   def initialize(queue)
     @queue = queue
   end
 
-  def process_input
-    action = ACTIONS[gets.chomp]
-    @queue << action if action
+  def process_input(events_map)
+    @queue << events_map[$stdin.gets.chomp]
   end
 end

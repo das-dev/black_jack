@@ -15,5 +15,15 @@ class AbcState
     @game_manager.queue << event
   end
 
+  def process_action(action)
+    method(action).call
+  rescue NameError
+    nil
+  end
+
   def do_nothing; end
+
+  def events_map
+    {}
+  end
 end
