@@ -11,11 +11,12 @@ class GameLoop
   def_delegators :@presentation, :render
   def_delegators :@game_manager, :update
 
-  def initialize
+  def initialize(params)
+    @options = parse_params(params)
     @queue = Queue.new
-    @game_manager = GameManager.new(@queue, debug: debug?)
+    @game_manager = GameManager.new(@queue, debug: @options[:debug])
     @controller = Controller.new(@queue)
-    @presentation = Screen.new(debug: debug?)
+    @presentation = Screen.new(@game_manager.action, debug: @options[:debug])
   end
 
   def run
@@ -33,12 +34,14 @@ class GameLoop
   end
 
   def render
-    @presentation.render(@game_manager.context)
+    @presentation.render(@game_manager.action, @game_manager.context)
   end
 
-  def debug?
-    ARGV.include?("--debug")
+  def parse_params(params)
+    options = { debug: params.include?("--debug") }
+    params.clear
+    options
   end
 end
 
-GameLoop.new.run if __FILE__ == $PROGRAM_NAME
+GameLoop.new(ARGV).run if __FILE__ == $PROGRAM_NAME

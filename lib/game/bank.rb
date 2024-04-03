@@ -14,4 +14,8 @@ class Bank
   def deposit(amount)
     @balance += amount
   end
+
+  def reset
+    @balance = 0
+  end
 end

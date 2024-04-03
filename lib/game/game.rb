@@ -19,6 +19,12 @@ class Game
     end
   end
 
+  def finish_deal
+    @player.clear_hand
+    @dealer.clear_hand
+    @bank.reset
+  end
+
   def place_bet
     @player.bet(10, @bank)
     @dealer.bet(10, @bank)
@@ -38,5 +44,25 @@ class Game
 
   def dealer_full?
     @dealer.full?
+  end
+
+  def bank_balance
+    @bank.balance
+  end
+
+  def player_balance
+    @player.balance
+  end
+
+  def dealer_balance
+    @dealer.balance
+  end
+
+  def player_cards
+    @player.hand
+  end
+
+  def dealer_cards
+    @dealer.hand
   end
 end

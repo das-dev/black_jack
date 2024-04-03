@@ -7,12 +7,12 @@ class WaitForPlayerState < AbcState
     :wait_for_player
   end
 
-  def pass_turn
+  def stand
     @game_manager.switch_state(States::WAIT_FOR_DEALER)
     send_event(:wait_for_dealer)
   end
 
-  def add_card
+  def hit
     return if @game.player_full?
 
     @game.add_card_to_player
@@ -21,12 +21,12 @@ class WaitForPlayerState < AbcState
     send_event(:wait_for_dealer)
   end
 
-  def open_cards
+  def reveal
     @game_manager.switch_state(States::WAIT_FOR_DEALER)
     send_event(:wait_for_dealer)
   end
 
   def events_map
-    { "1" => :pass_turn, "2" => :add_card, "3" => :open_cards, "q" => :quit }
+    { "1" => :stand, "2" => :hit, "3" => :reveal, "q" => :quit }
   end
 end

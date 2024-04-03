@@ -25,8 +25,13 @@ class GameManager
   def context
     return if @game.nil?
 
-    context = Struct.new(:game_bank, :dealer_bank, :player_bank)
-    context.new(@game.bank.balance, @game.player.balance, @game.dealer.balance)
+    {
+      game_bank: @game.bank_balance,
+      dealer_bank: @game.player_balance,
+      player_bank: @game.dealer_balance,
+      player_cards: @game.player_cards,
+      dealer_cards: @game.dealer_cards
+    }
   end
 
   def switch_state(state)
@@ -63,7 +68,7 @@ class GameManager
   private
 
   def make_state(state)
-    puts "Transitioning from #{self.state.class} to #{state}" unless @debug
+    puts "Transitioning from #{self.state.class} to #{state}" if @debug
     state.new(self, @game)
   end
 end
